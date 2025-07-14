@@ -104,21 +104,18 @@ function ReplicatePath(Combined, SourcePlace, Path)
 	end
 end
 
-return function(ID1, ID2, OutputName)
+return function(IDs, OutputName)
 	local Combined = Instance.new("DataModel")
 
-	local Place1 = typeof(ID1) == "number" and Remodel.readPlaceAsset(ID1) or Roblox.deserializePlace(ID1)
-	local Place2 = typeof(ID2) == "number" and Remodel.readPlaceAsset(ID2) or Roblox.deserializePlace(ID2)
+	for _, Place in pairs(IDs) do
+		local Place1 = typeof(Place) == "number" and Remodel.readPlaceAsset(Place)
+			or Roblox.deserializePlace(fs.readFile(Place))
 
-	ReplicatePath(Combined, Place1, Place1.Workspace)
-	ReplicatePath(Combined, Place1, Place1.ReplicatedStorage)
-	ReplicatePath(Combined, Place1, Place1.ServerScriptService)
-	ReplicatePath(Combined, Place1, Place1.StarterPlayer.StarterPlayerScripts)
-
-	ReplicatePath(Combined, Place2, Place2.Workspace)
-	ReplicatePath(Combined, Place2, Place2.ReplicatedStorage)
-	ReplicatePath(Combined, Place2, Place2.ServerScriptService)
-	ReplicatePath(Combined, Place2, Place2.StarterPlayer.StarterPlayerScripts)
+		ReplicatePath(Combined, Place1, Place1.Workspace)
+		ReplicatePath(Combined, Place1, Place1.ReplicatedStorage)
+		ReplicatePath(Combined, Place1, Place1.ServerScriptService)
+		ReplicatePath(Combined, Place1, Place1.StarterPlayer.StarterPlayerScripts)
+	end
 
 	for _, Entry in fs.readDir(FilesPath) do
 		if fs.isFile(Entry) then
