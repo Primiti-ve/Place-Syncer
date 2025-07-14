@@ -19,7 +19,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with: 
           name: PlaceSyncer
-          path: src/
+          path: /src
       
       - name: Get Release Description from config.toml
         uses: SebRollen/toml-action@v1.0.0
