@@ -6,9 +6,6 @@ on:
 permissions:
   contents: write
 
-env:
-  GH_TOKEN: ${{ github.token }}
-
 jobs: 
   deploy:
     if: ${{ github.ref == 'refs/heads/main' }}
@@ -23,7 +20,19 @@ jobs:
         id: read_toml
         with: 
           file: 'config.toml'
-          field: 'tag.description'
+          field: 'description.tag'
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }} (draft)
+          body: ${{ steps.read_toml.outputs.value }}
+          draft: true
+          prerelease: false
 
       - name: Upload to Github Release
         uses: xresloader/upload-to-github-release@v1
@@ -32,5 +41,7 @@ jobs:
         with:
           file: "src"
           tag_name: ${{ steps.read_toml.outputs.value }}
+          overwrite: true
+
           tags: true
           draft: true

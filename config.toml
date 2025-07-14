@@ -1,1 +1,2 @@
+description = "Test upload-to-github-release works with `actions/create-release`."
 tag = "0.0.1"
