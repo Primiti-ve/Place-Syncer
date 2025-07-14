@@ -20,7 +20,7 @@ jobs:
         id: release_description
         with: 
           file: 'config.toml'
-          field: 'release.name'
+          field: 'release.description'
 
       - name: Get Release Version from config.toml
         uses: SebRollen/toml-action@v1.0.0
@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with: 
           name: Syncer
-          path: src
+          path: Syncer
 
       - name: Release
         uses: softprops/action-gh-release@v2.3.2
