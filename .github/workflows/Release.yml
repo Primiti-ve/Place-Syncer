@@ -31,7 +31,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           file: "src"
-          update_release_body: ${{ steps.read_toml.outputs.value }}
           tag_name: ${{ steps.read_toml.outputs.value }}
+          update_release_body: ${{ steps.read_toml.outputs.value }}
           tags: true
           draft: true
