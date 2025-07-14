@@ -53,7 +53,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: "/"
+          file: "src"
           tag_name: ${{ steps.release_tag.outputs.value }}
           overwrite: true
 

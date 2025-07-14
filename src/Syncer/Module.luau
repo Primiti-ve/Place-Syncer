@@ -8,6 +8,8 @@ local Instance = Roblox.Instance
 local Remodel = require("./Modules/Remodel")
 local Maps = require("./Modules/Maps")
 
+local FilesPath = "src/Syncer/Files/"
+
 function GetOrCreateService(Combined, Parent, ServiceName)
 	local Success, Service = pcall(function()
 		return Parent:GetService(ServiceName)
@@ -118,20 +120,20 @@ return function(ID1, ID2, OutputName)
 	ReplicatePath(Combined, Place2, Place2.ServerScriptService)
 	ReplicatePath(Combined, Place2, Place2.StarterPlayer.StarterPlayerScripts)
 
-	for _, Entry in fs.readDir("src/Files/") do
+	for _, Entry in fs.readDir(FilesPath) do
 		if fs.isFile(Entry) then
-			if not fs.isFile("src/Files/" .. Entry .. ".lock") then
-				print("Removing " .. "src/Files/" .. Entry)
+			if not fs.isFile((FilesPath .. Entry) .. ".lock") then
+				print("Removing " .. (FilesPath .. Entry))
 
-				fs.removeFile("src/Files/" .. Entry)
+				fs.removeFile(FilesPath .. Entry)
 			end
 		end
 	end
 
-	if not fs.isFile("src/Files/" .. OutputName .. ".rbxlx") then
-		print("Writing " .. "src/Files/" .. OutputName .. ".rbxlx")
-		
-		Remodel.writePlaceFile("src/Files/" .. OutputName .. ".rbxlx", Combined)
+	if not fs.isFile((FilesPath .. OutputName) .. ".rbxlx") then
+		print("Writing " .. (FilesPath .. OutputName) .. ".rbxlx")
+
+		Remodel.writePlaceFile((FilesPath .. OutputName) .. ".rbxlx", Combined)
 	end
 
 	print("Finished!")

@@ -3,6 +3,7 @@ local process = require("@lune/process")
 local fs = require("@lune/fs")
 
 local Module = require("./Module")
+local FilesPath = "src/Syncer/Files/"
 
 local Arguments = process.args
 local NewArguments = {}
@@ -30,14 +31,14 @@ local ID2 = NewArguments[2]
 local OutputName = NewArguments[3]
 
 if tonumber(ID1) == nil then
-	ID1 = fs.readFile("src/Files/" .. ID1)
+	ID1 = fs.readFile(FilesPath .. ID1)
 else
 	ID1 = tonumber(ID1)
 end
 
 print(typeof(ID2))
 if tonumber(ID2) == nil then
-	ID2 = fs.readFile("src/Files/" .. ID2)
+	ID2 = fs.readFile(FilesPath .. ID2)
 else
 	ID2 = tonumber(ID2)
 end
