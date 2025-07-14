@@ -5,8 +5,8 @@ local fs = require("@lune/fs")
 local Roblox = require("@lune/roblox")
 local Instance = Roblox.Instance
 
-local Remodel = require("./Modules/Remodel")
-local Maps = require("./Modules/Maps")
+local Remodel = require("./Remodel")
+local Maps = require("./Maps")
 
 local FilesPath = "src/Files/"
 
