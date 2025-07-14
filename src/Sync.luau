@@ -3,7 +3,7 @@ local process = require("@lune/process")
 local fs = require("@lune/fs")
 
 local Module = require("./Module")
-local FilesPath = "src/Syncer/Files/"
+local FilesPath = "src/Files/"
 
 local Arguments = process.args
 local NewArguments = {}

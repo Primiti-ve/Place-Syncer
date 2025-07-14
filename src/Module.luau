@@ -8,7 +8,7 @@ local Instance = Roblox.Instance
 local Remodel = require("./Modules/Remodel")
 local Maps = require("./Modules/Maps")
 
-local FilesPath = "src/Syncer/Files/"
+local FilesPath = "src/Files/"
 
 function GetOrCreateService(Combined, Parent, ServiceName)
 	local Success, Service = pcall(function()

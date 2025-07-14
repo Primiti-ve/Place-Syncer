@@ -29,33 +29,24 @@ jobs:
           file: 'config.toml'
           field: 'release.name'
 
-      - name: Get Release Tag from config.toml
+      - name: Get Release Version from config.toml
         uses: SebRollen/toml-action@v1.0.0
-        id: release_tag
+        id: release_version
         with: 
           file: 'config.toml'
-          field: 'release.tag'
+          field: 'release.version'
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ steps.release_name.outputs.value }}
+      - name: Upload as build artifact
+        uses: actions/upload-artifact@v4
+        with: 
+          name: Syncer
+          path: src
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with: 
+          name: ${{ steps.release_name.outputs.value }}
           body: ${{ steps.release_description.outputs.value }}
-          draft: true
-          prerelease: false
-
-      - name: Upload to Github Release
-        uses: xresloader/upload-to-github-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          file: "src"
-          tag_name: ${{ steps.release_tag.outputs.value }}
-          overwrite: true
-
-          tags: true
+          tag_name: ${{ steps.release_version.outputs.value }}
+          files: Syncer
           draft: true
