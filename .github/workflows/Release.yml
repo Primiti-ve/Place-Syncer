@@ -15,9 +15,10 @@ jobs:
       - name: Checkout Main
         uses: actions/checkout@v4
 
-      - name: Package Syncer as tar.gz
+      - name: Package Syncer as .tar.gz and .zip
         run: |
           tar czf PlaceSyncer.tar.gz src
+          zip -r PlaceSyncer.zip src
 
       - name: Get Release Description from config.toml
         uses: SebRollen/toml-action@v1.0.0
@@ -38,5 +39,7 @@ jobs:
         with: 
           body: ${{ steps.release_description.outputs.value }}
           tag_name: ${{ steps.release_version.outputs.value }}
-          files: PlaceSyncer.tar.gz
+          files: |
+            PlaceSyncer.zip
+            PlaceSyncer.tar.gz
           draft: true
