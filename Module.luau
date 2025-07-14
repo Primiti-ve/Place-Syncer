@@ -116,25 +116,23 @@ return function(ID1, ID2, OutputName)
 	ReplicatePath(Combined, Place2, Place2.ServerScriptService)
 	ReplicatePath(Combined, Place2, Place2.StarterPlayer.StarterPlayerScripts)
 
-	for _, EntryName in fs.readDir("Place Files") do
-		local Path = "Place Files/" .. EntryName
+	for _, Entry in fs.readDir("/") do
+		if fs.isFile(Entry) then
+			if not fs.isFile(Entry .. ".lock")  then
+				print("Removing " .. Entry)
 
-		if fs.isFile(Path) then
-			if not fs.isFile(Path .. ".lock") then
-				print("Removing " .. EntryName .. " from Place Files")
-
-				fs.removeFile(Path)
+				fs.removeFile(Entry)
 			end
-		elseif fs.isDir(Path) then
-			print("Removing " .. EntryName .. " from Place Files")
+		elseif fs.isDir(Entry) then
+			print("Removing " .. Entry)
 
-			fs.removeDir(Path)
+			fs.removeDir(Entry)
 		end
 	end
 
-	if not fs.isFile("Place Files/" .. OutputName .. ".rbxlx") then
-		print("Writing " .. OutputName .. ".rbxlx to Place Files")
-		Remodel.writePlaceFile("Place Files/" .. OutputName .. ".rbxlx", Combined)
+	if not fs.isFile(OutputName .. ".rbxlx") then
+		print("Writing " .. OutputName .. ".rbxlx")
+		Remodel.writePlaceFile(OutputName .. ".rbxlx", Combined)
 	end
 
 	print("Finished!")
