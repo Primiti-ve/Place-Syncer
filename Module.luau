@@ -1,10 +1,12 @@
+--!nocheck
+
 local fs = require("@lune/fs")
 
 local Roblox = require("@lune/roblox")
 local Instance = Roblox.Instance
 
-local Remodel = require("./Remodel")
-local Maps = require("./Maps")
+local Remodel = require("./Modules/Remodel")
+local Maps = require("./Modules/Maps")
 
 function GetOrCreateService(Combined, Parent, ServiceName)
 	local Success, Service = pcall(function()
@@ -95,7 +97,7 @@ function ReplicatePath(Combined, SourcePlace, Path)
 
 		local Cloned = Object:Clone()
 
-		-- Cloned:SetAttribute("Service", nil)
+		Cloned:SetAttribute("Service", nil)
 		Cloned.Parent = Target
 	end
 end
@@ -103,8 +105,8 @@ end
 return function(ID1, ID2, OutputName)
 	local Combined = Instance.new("DataModel")
 
-	local Place1 = Remodel.readPlaceAsset(ID1)
-	local Place2 = Remodel.readPlaceAsset(ID2)
+	local Place1 = typeof(ID1) == "number" and Remodel.readPlaceAsset(ID1) or Roblox.deserializePlace(ID1)
+	local Place2 = typeof(ID2) == "number" and Remodel.readPlaceAsset(ID2) or Roblox.deserializePlace(ID2)
 
 	ReplicatePath(Combined, Place1, Place1.Workspace)
 	ReplicatePath(Combined, Place1, Place1.ReplicatedStorage)
@@ -116,23 +118,20 @@ return function(ID1, ID2, OutputName)
 	ReplicatePath(Combined, Place2, Place2.ServerScriptService)
 	ReplicatePath(Combined, Place2, Place2.StarterPlayer.StarterPlayerScripts)
 
-	for _, Entry in fs.readDir("/") do
+	for _, Entry in fs.readDir("Files/") do
 		if fs.isFile(Entry) then
-			if not fs.isFile(Entry .. ".lock")  then
-				print("Removing " .. Entry)
+			if not fs.isFile("Files/" .. Entry .. ".lock") then
+				print("Removing " .. "Files/" .. Entry)
 
-				fs.removeFile(Entry)
+				fs.removeFile("Files/" .. Entry)
 			end
-		elseif fs.isDir(Entry) then
-			print("Removing " .. Entry)
-
-			fs.removeDir(Entry)
 		end
 	end
 
-	if not fs.isFile(OutputName .. ".rbxlx") then
-		print("Writing " .. OutputName .. ".rbxlx")
-		Remodel.writePlaceFile(OutputName .. ".rbxlx", Combined)
+	if not fs.isFile("Files/" .. OutputName .. ".rbxlx") then
+		print("Writing " .. "Files/" .. OutputName .. ".rbxlx")
+		
+		Remodel.writePlaceFile("Files/" .. OutputName .. ".rbxlx", Combined)
 	end
 
 	print("Finished!")
