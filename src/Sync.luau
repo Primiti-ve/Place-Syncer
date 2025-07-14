@@ -2,7 +2,7 @@ local stdio = require("@lune/stdio")
 local process = require("@lune/process")
 local fs = require("@lune/fs")
 
-local Module = require("./Module")
+local Module = require("Module")
 
 local Arguments = process.args
 local NewArguments = {}

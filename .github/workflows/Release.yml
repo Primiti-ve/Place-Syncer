@@ -1,0 +1,36 @@
+name: Releases
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  GH_TOKEN: ${{ github.token }}
+
+jobs: 
+  deploy:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Main
+        uses: actions/checkout@v4
+
+      - name: Get Release Tag from config.toml
+        uses: SebRollen/toml-action@v1.0.0
+        id: read_toml
+        with: 
+          file: 'config.toml'
+          field: 'tag'
+
+      - name: Upload to Github Release
+        uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: "*.md"
+          tag_name: ${{ steps.read_toml.outputs.value }}
+          tags: true
+          draft: true
