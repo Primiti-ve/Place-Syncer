@@ -15,12 +15,10 @@ jobs:
       - name: Checkout Main
         uses: actions/checkout@v4
 
-      - name: Upload Syncer as build artifact
-        uses: actions/upload-artifact@v4
-        with: 
-          name: PlaceSyncer
-          path: src/*
-      
+      - name: Package Syncer as tar.gz
+        run: |
+          tar czf PlaceSyncer.tar.gz src
+
       - name: Get Release Description from config.toml
         uses: SebRollen/toml-action@v1.0.0
         id: release_description
@@ -40,5 +38,5 @@ jobs:
         with: 
           body: ${{ steps.release_description.outputs.value }}
           tag_name: ${{ steps.release_version.outputs.value }}
-          files: PlaceSyncer
+          files: PlaceSyncer.tar.gz
           draft: true
