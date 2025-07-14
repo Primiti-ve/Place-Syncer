@@ -40,5 +40,5 @@ jobs:
         with: 
           body: ${{ steps.release_description.outputs.value }}
           tag_name: ${{ steps.release_version.outputs.value }}
-          files: PlaceSyncer.zip
+          files: PlaceSyncer
           draft: true
