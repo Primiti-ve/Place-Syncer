@@ -55,7 +55,7 @@ function ResolvePath(Combined, Parent, ServicePath)
 	local Parts = string.split(ServicePath, "|")
 	local Current = Parent
 
-	for Index, Part in ipairs(Parts) do
+	for Index, Part in pairs(Parts) do
 		local Child = Current:FindFirstChild(Part)
 
 		if not Child then
