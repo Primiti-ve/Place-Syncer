@@ -32,6 +32,5 @@ jobs:
         with:
           file: "src"
           tag_name: ${{ steps.read_toml.outputs.value }}
-          update_release_body: ${{ steps.read_toml.outputs.value }}
           tags: true
           draft: true
