@@ -1,4 +1,3 @@
 [release]
-name = "test"
 description = "Test upload-to-github-release works with `actions/create-release`."
-version = "1.0.0"
+version = "v1.0.0"

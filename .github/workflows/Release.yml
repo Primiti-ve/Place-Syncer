@@ -14,13 +14,6 @@ jobs:
     steps:
       - name: Checkout Main
         uses: actions/checkout@v4
-        
-      - name: Get Release Name from config.toml
-        uses: SebRollen/toml-action@v1.0.0
-        id: release_name
-        with: 
-          file: 'config.toml'
-          field: 'release.name'
 
       - name: Get Release Description from config.toml
         uses: SebRollen/toml-action@v1.0.0
@@ -43,9 +36,8 @@ jobs:
           path: src
 
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2.3.2
         with: 
-          name: ${{ steps.release_name.outputs.value }}
           body: ${{ steps.release_description.outputs.value }}
           tag_name: ${{ steps.release_version.outputs.value }}
           files: Syncer
