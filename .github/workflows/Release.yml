@@ -14,13 +14,27 @@ jobs:
     steps:
       - name: Checkout Main
         uses: actions/checkout@v4
+        
+      - name: Get Release Name from config.toml
+        uses: SebRollen/toml-action@v1.0.0
+        id: release_name
+        with: 
+          file: 'config.toml'
+          field: 'release.name'
+
+      - name: Get Release Description from config.toml
+        uses: SebRollen/toml-action@v1.0.0
+        id: release_description
+        with: 
+          file: 'config.toml'
+          field: 'release.name'
 
       - name: Get Release Tag from config.toml
         uses: SebRollen/toml-action@v1.0.0
-        id: read_toml
+        id: release_tag
         with: 
           file: 'config.toml'
-          field: 'description.tag'
+          field: 'release.tag'
 
       - name: Create Release
         id: create_release
@@ -29,8 +43,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }} (draft)
-          body: ${{ steps.read_toml.outputs.value }}
+          release_name: ${{ steps.release_name.outputs.value }} (draft)
+          body: ${{ steps.release_description.outputs.value }}
           draft: true
           prerelease: false
 
@@ -40,7 +54,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           file: "src"
-          tag_name: ${{ steps.read_toml.outputs.value }}
+          tag_name: ${{ steps.release_tag.outputs.value }}
           overwrite: true
 
           tags: true
