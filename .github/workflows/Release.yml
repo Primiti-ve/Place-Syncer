@@ -30,7 +30,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: "*.md"
+          file: "src"
           tag_name: ${{ steps.read_toml.outputs.value }}
           tags: true
           draft: true
